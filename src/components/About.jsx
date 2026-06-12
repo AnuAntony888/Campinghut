@@ -19,6 +19,17 @@ import WifiOffIcon from '@mui/icons-material/WifiOff';
 
 export default function About() {
   const theme = useTheme();
+  const [activeFacility, setActiveFacility] = React.useState(0);
+
+  const facilityList = [
+    { label: 'Pickup & Drop Assistance', img: '/dest_kodaikanal.png' },
+    { label: 'Complimentary Breakfast', img: '/gallery_breakfast.png' },
+    { label: 'Pre-Booked Meal Packages', img: '/camping_dining.png' },
+    { label: 'Campfire Facilities', img: '/gallery_campfire.png' },
+    { label: 'Trekking Assistance', img: '/kavunji_valley_gorge.jpg' },
+    { label: 'Sightseeing Support', img: '/wayanad_hills.png' },
+    { label: 'Nature Walks & Outdoor Activities', img: '/camping_activities.png' },
+  ];
 
   const pillars = [
     {
@@ -491,108 +502,124 @@ export default function About() {
           <Box sx={{ width: 60, height: 1, backgroundColor: 'rgba(27, 67, 50, 0.1)' }} />
         </Box>
 
-        {/* ── Facilities + About Kavunji ── */}
-        <Grid container spacing={5} alignItems="flex-start">
-          {/* Facilities */}
-          <Grid item xs={12} md={6}>
-            <Box
-              component={motion.div}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.7 }}
+        {/* ── About Kavunji + Sustainable Travel ── */}
+        <Box sx={{ mb: 10, maxWidth: 900, mx: 'auto', textAlign: 'center' }}>
+          <Box
+            component={motion.div}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7 }}
+          >
+            <Typography sx={{ textTransform: 'uppercase', letterSpacing: '3px', color: 'secondary.main', fontWeight: 700, fontSize: '0.72rem', mb: 1.5 }}>
+              The Destination
+            </Typography>
+            <Typography variant="h4" color="primary" sx={{ fontWeight: 800, mb: 3, fontFamily: '"Playfair Display", serif' }}>
+              About Kavunji
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 3, fontSize: '1.05rem' }}>
+              Kavunji is a peaceful panchayat village located on the western edge of the Western Ghats in Kodaikanal, Tamil Nadu. Known for its terrace farms, mist-covered valleys, waterfalls, and cool mountain climate, it offers visitors an authentic countryside experience away from crowded tourist destinations.
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 4, fontSize: '1.05rem' }}>
+              Located approximately <strong>35 km from Kodaikanal town</strong> and at an elevation of around <strong>1,920 metres above sea level</strong>, Kavunji remains one of the region's hidden gems — a place where time slows down and nature takes centre stage.
+            </Typography>
+
+            <Paper
+              elevation={0}
+              sx={{
+                p: 3,
+                mt: 4,
+                borderRadius: 3,
+                background: 'linear-gradient(135deg, #f0f7f2 0%, #fefcf5 100%)',
+                border: '1px solid rgba(27,67,50,0.1)',
+                borderLeft: '4px solid',
+                borderLeftColor: 'secondary.main',
+                textAlign: 'left',
+                display: 'inline-block',
+              }}
             >
-              <Typography sx={{ textTransform: 'uppercase', letterSpacing: '3px', color: 'secondary.main', fontWeight: 700, fontSize: '0.72rem', mb: 1.5 }}>
-                Amenities & Services
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                <WifiOffIcon sx={{ color: 'secondary.main' }} />
+                <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.75rem' }}>
+                  Sustainable Travel
+                </Typography>
+              </Box>
+              <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.75 }}>
+                As a remote mountain village, Kavunji may have limited mobile network and electricity at times. We encourage guests to embrace this as an opportunity to <strong>disconnect from screens and reconnect with nature</strong>. We kindly request all visitors to help preserve Kavunji's beauty by respecting the local environment and avoiding littering.
               </Typography>
-              <Typography variant="h5" color="primary" sx={{ fontWeight: 800, mb: 3, fontFamily: '"Playfair Display", serif' }}>
-                Facilities Included
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                {[
-                  { icon: <DirectionsCarIcon />, label: 'Pickup & Drop Assistance' },
-                  { icon: <FreeBreakfastIcon />, label: 'Complimentary Breakfast' },
-                  { icon: <OutdoorGrillIcon />, label: 'Pre-Booked Meal Packages' },
-                  { icon: <LocalFireDepartmentIcon />, label: 'Campfire Facilities' },
-                  { icon: <HikingIcon />, label: 'Trekking Assistance' },
-                  { icon: <TourIcon />, label: 'Sightseeing Support' },
-                  { icon: <NaturePeopleIcon />, label: 'Nature Walks & Outdoor Activities' },
-                ].map((f, i) => (
-                  <Box
-                    key={i}
-                    component={motion.div}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.07 }}
-                    sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
-                  >
-                    <Box
-                      sx={{
-                        width: 40, height: 40, borderRadius: '50%',
-                        background: 'rgba(27,67,50,0.06)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: 'secondary.main', flexShrink: 0,
-                      }}
-                    >
-                      {f.icon}
-                    </Box>
-                    <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>{f.label}</Typography>
-                  </Box>
+            </Paper>
+          </Box>
+        </Box>
+      </Container>
+
+      {/* ── Facilities (Hover Image) Section ── */}
+      <Box sx={{ background: '#eeebe6', py: { xs: 8, md: 12 }, mb: 8 }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={8} alignItems="center">
+            {/* Image Column */}
+            <Grid item xs={12} md={5}>
+              <Box sx={{ position: 'relative', width: '100%', height: { xs: 400, md: 550 }, backgroundColor: '#e0dcd3' }}>
+                {/* Offset Border Frame */}
+                <Box sx={{ position: 'absolute', top: 20, right: -20, bottom: -20, left: 20, border: '1px solid #7a756c', zIndex: 0 }} />
+                {/* Active Image */}
+                {facilityList.map((facility, index) => (
+                  <img
+                    key={index}
+                    src={facility.img}
+                    alt={facility.label}
+                    style={{
+                      position: 'absolute', top: 0, left: 0,
+                      width: '100%', height: '100%', objectFit: 'cover',
+                      zIndex: 1,
+                      opacity: activeFacility === index ? 1 : 0,
+                      transition: 'opacity 0.4s ease-in-out',
+                      pointerEvents: 'none'
+                    }}
+                  />
                 ))}
               </Box>
-            </Box>
+            </Grid>
+
+            {/* List Column */}
+            <Grid item xs={12} md={7}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 3, md: 5 }, pl: { md: 6 } }}>
+                {facilityList.map((facility, index) => {
+                  const isActive = activeFacility === index;
+                  return (
+                    <Box
+                      key={index}
+                      onMouseEnter={() => setActiveFacility(index)}
+                      sx={{
+                        display: 'flex', alignItems: 'center', cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        color: isActive ? '#4a453f' : '#8e8a83',
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontFamily: '"Playfair Display", serif',
+                          fontSize: { xs: '1.4rem', md: '1.8rem' },
+                          transition: 'color 0.3s ease',
+                        }}
+                      >
+                        {facility.label}
+                      </Typography>
+                      {isActive && (
+                        <Box sx={{ ml: 4, position: 'relative', display: 'flex', alignItems: 'center' }}>
+                          <Box sx={{ position: 'absolute', width: 44, height: 44, borderRadius: '50%', backgroundColor: 'rgba(0,0,0,0.06)', left: -12 }} />
+                          <EastIcon sx={{ fontSize: '1.5rem', fontWeight: 300, color: '#4a453f', position: 'relative', zIndex: 1 }} />
+                        </Box>
+                      )}
+                    </Box>
+                  );
+                })}
+              </Box>
+            </Grid>
           </Grid>
+        </Container>
+      </Box>
 
-          {/* About Kavunji + Sustainable Travel */}
-          <Grid item xs={12} md={6}>
-            <Box
-              component={motion.div}
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.7 }}
-            >
-              <Typography sx={{ textTransform: 'uppercase', letterSpacing: '3px', color: 'secondary.main', fontWeight: 700, fontSize: '0.72rem', mb: 1.5 }}>
-                The Destination
-              </Typography>
-              <Typography variant="h5" color="primary" sx={{ fontWeight: 800, mb: 2.5, fontFamily: '"Playfair Display", serif' }}>
-                About Kavunji
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8, mb: 3 }}>
-                Kavunji is a peaceful panchayat village located on the western edge of the Western Ghats in Kodaikanal, Tamil Nadu. Known for its terrace farms, mist-covered valleys, waterfalls, and cool mountain climate, it offers visitors an authentic countryside experience away from crowded tourist destinations.
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8, mb: 4 }}>
-                Located approximately <strong>35 km from Kodaikanal town</strong> and at an elevation of around <strong>1,920 metres above sea level</strong>, Kavunji remains one of the region's hidden gems — a place where time slows down and nature takes centre stage.
-              </Typography>
-
-              <Divider sx={{ mb: 3, borderColor: 'rgba(27,67,50,0.1)' }} />
-
-              {/* Sustainable Travel box */}
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 3,
-                  borderRadius: 3,
-                  background: 'linear-gradient(135deg, #f0f7f2 0%, #fefcf5 100%)',
-                  border: '1px solid rgba(27,67,50,0.1)',
-                  borderLeft: '4px solid',
-                  borderLeftColor: 'secondary.main',
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                  <WifiOffIcon sx={{ color: 'secondary.main' }} />
-                  <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.75rem' }}>
-                    Sustainable Travel
-                  </Typography>
-                </Box>
-                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.75 }}>
-                  As a remote mountain village, Kavunji may have limited mobile network and electricity at times. We encourage guests to embrace this as an opportunity to <strong>disconnect from screens and reconnect with nature</strong>. We kindly request all visitors to help preserve Kavunji's beauty by respecting the local environment and avoiding littering.
-                </Typography>
-              </Paper>
-            </Box>
-          </Grid>
-        </Grid>
+      <Container maxWidth="lg">
 
         {/* ── Upcoming Projects ── */}
         <Box sx={{ mt: 12, mb: 6 }}>
@@ -607,21 +634,19 @@ export default function About() {
           </Typography>
 
           <Grid container spacing={3.5}>
+
             {[
               {
-                img: '/upcoming_google_ooty.jpg',
                 title: 'Woodsman Craft',
                 location: 'Lovedale, Ooty, Tamil Nadu',
                 desc: 'A nature-inspired retreat designed around the charm of the Nilgiris, offering peaceful stays surrounded by forests, misty landscapes, and mountain views.'
               },
               {
-                img: '/upcoming_google_coorg.jpg',
                 title: 'Amber',
                 location: 'Madikeri (Coorg), Karnataka',
                 desc: 'A premium countryside escape in the heart of Coorg, combining plantation experiences, scenic viewpoints, and comfortable accommodation.'
               },
               {
-                img: '/upcoming_google_wayanad.jpg',
                 title: 'Cozy Huts',
                 location: 'Meppadi, Wayanad, Kerala',
                 desc: 'A tranquil hillside getaway featuring cozy stays, nature trails, and immersive experiences amidst the beautiful landscapes of Wayanad.'
@@ -637,10 +662,10 @@ export default function About() {
                   sx={{
                     borderRadius: '20px', overflow: 'hidden', position: 'relative',
                     height: 380, cursor: 'pointer', boxShadow: '0 8px 30px rgba(4,16,10,0.12)',
-                    '&:hover .upc-img': { transform: 'scale(1.06)' },
+                    '&:hover .upc-bg': { transform: 'scale(1.06)' },
                   }}
                 >
-                  <Box className="upc-img" sx={{ position: 'absolute', inset: 0, backgroundImage: `url("${project.img}")`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'transform 0.8s ease' }} />
+                  <Box className="upc-bg" sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #081c15 0%, #1b4332 100%)', transition: 'transform 0.8s ease' }} />
                   <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(4,12,8,0.95) 0%, rgba(4,12,8,0.3) 60%, rgba(4,12,8,0) 100%)' }} />
                   <Box sx={{ position: 'absolute', top: 16, right: 16, backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', color: '#fff', px: 1.5, py: 0.4, borderRadius: '20px', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
                     Coming Soon
