@@ -46,25 +46,38 @@ export default function Footer() {
         <Grid container spacing={5}>
           {/* Logo & Social Links */}
           <Grid item xs={12} md={5}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2.5, gap: 2 }}>
               <Box
                 component="img"
                 src="/resort_logo.png"
                 alt="TrailNest Logo"
-                sx={{ height: 48, width: 48, mr: 1.5, filter: 'brightness(0) invert(1)' }}
-              />
-              <Typography
-                variant="h6"
                 sx={{
-                  fontFamily: '"Dancing Script", cursive',
-                  fontWeight: 700,
-                  letterSpacing: '1px',
-                  color: '#ffffff',
-                  fontSize: '1.5rem',
+                  height: 100,
+                  width: 100,
+                  objectFit: 'contain',
+                  flexShrink: 0,
                 }}
-              >
-                TrailNest
-              </Typography>
+              />
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontFamily: '"Dancing Script", cursive',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    fontSize: '1.8rem',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  TrailNest
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ color: 'secondary.light', letterSpacing: '2px', fontSize: '0.65rem', textTransform: 'uppercase' }}
+                >
+                  Camping · By AMG
+                </Typography>
+              </Box>
             </Box>
             <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.7, mb: 3 }}>
               A hospitality venture of AMG IT Infrastructure and Services. Simple stays, real peace — across Kerala, Karnataka, and Tamil Nadu.

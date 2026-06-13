@@ -100,26 +100,15 @@ export default function Navbar({ onOpenBooking }) {
                 src="/resort_logo.png"
                 alt="TrailNest Logo"
                 sx={{
-                  height: 50,
-                  width: 50,
-                  mr: 1.5,
-                  filter: scrolled || isMobile ? 'none' : 'brightness(0) invert(1)',
-                  transition: 'filter 0.4s ease',
+                  height: 64,
+                  width: 64,
+                  mr: 1,
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  transition: 'transform 0.3s ease',
+                  '&:hover': { transform: 'scale(1.08)' },
                 }}
               />
-              <Typography
-                variant="h6"
-                noWrap
-                sx={{
-                  fontFamily: '"Dancing Script", cursive',
-                  fontWeight: 700,
-                  letterSpacing: '1px',
-                  color: scrolled || isMobile ? 'primary.main' : '#ffffff',
-                  fontSize: { xs: '1.4rem', sm: '1.8rem' },
-                }}
-              >
-                TrailNest
-              </Typography>
             </Box>
 
             {/* Desktop Navigation */}
@@ -224,9 +213,16 @@ export default function Navbar({ onOpenBooking }) {
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Box
             component="img"
-            // src="/resort_logo.png"
+            src="/resort_logo.png"
             alt="TrailNest Logo"
-            sx={{ height: 60, width: 60, mb: 1 }}
+            sx={{
+              height: 110,
+              width: 110,
+              mb: 1,
+              objectFit: 'contain',
+              display: 'block',
+              mx: 'auto',
+            }}
           />
           <Typography variant="h6" sx={{ fontFamily: '"Dancing Script", cursive', fontWeight: 700, fontSize: '1.6rem' }}>
             TrailNest
