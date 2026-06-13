@@ -28,7 +28,7 @@ export default function About() {
     { label: 'Campfire Facilities', img: '/gallery_campfire.png' },
     { label: 'Trekking Assistance', img: '/kavunji_valley_gorge.jpg' },
     { label: 'Sightseeing Support', img: '/wayanad_hills.png' },
-    { label: 'Nature Walks & Outdoor Activities', img: '/camping_activities.png' },
+    { label: 'Nature Walks & Outdoor Activities', img: '/kavunji_mountain_view.jpg' },
   ];
 
   const pillars = [
@@ -552,146 +552,271 @@ export default function About() {
         </Box>
       </Container>
 
-      {/* ── Facilities (Hover Image) Section ── */}
-      <Box sx={{ background: '#eeebe6', py: { xs: 8, md: 12 }, mb: 8 }}>
+      {/* ── Facilities (Interactive Accordion) Section ── */}
+      <Box sx={{ background: '#faf9f6', py: { xs: 8, md: 12 }, mb: 8 }}>
         <Container maxWidth="lg">
-          <Grid container spacing={8} alignItems="center">
-            {/* Image Column */}
-            <Grid item xs={12} md={5}>
-              <Box sx={{ position: 'relative', width: '100%', height: { xs: 400, md: 550 }, backgroundColor: '#e0dcd3' }}>
-                {/* Offset Border Frame */}
-                <Box sx={{ position: 'absolute', top: 20, right: -20, bottom: -20, left: 20, border: '1px solid #7a756c', zIndex: 0 }} />
-                {/* Active Image */}
-                {facilityList.map((facility, index) => (
-                  <img
-                    key={index}
+          <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
+            <Typography sx={{ textTransform: 'uppercase', letterSpacing: '3px', color: 'secondary.main', fontWeight: 700, fontSize: '0.72rem', mb: 1.5 }}>
+              Amenities & Services
+            </Typography>
+            <Typography variant="h4" color="primary" sx={{ fontWeight: 800, fontSize: { xs: '1.8rem', md: '2.4rem' }, lineHeight: 1.2 }}>
+              Everything You Need
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              height: { xs: 'auto', md: '600px' },
+              gap: { xs: 1.5, md: 2 },
+            }}
+          >
+            {facilityList.map((facility, index) => {
+              const isActive = activeFacility === index;
+              return (
+                <Box
+                  key={index}
+                  onMouseEnter={() => setActiveFacility(index)}
+                  onClick={() => setActiveFacility(index)}
+                  sx={{
+                    position: 'relative',
+                    flex: { xs: 'none', md: isActive ? 5 : 1 },
+                    height: { xs: isActive ? 280 : 80, md: '100%' },
+                    transition: 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    boxShadow: isActive ? '0 20px 40px rgba(0,0,0,0.15)' : '0 4px 10px rgba(0,0,0,0.05)',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      inset: 0,
+                      background: isActive
+                        ? 'linear-gradient(to top, rgba(4, 16, 10, 0.9) 0%, rgba(4, 16, 10, 0) 60%)'
+                        : 'rgba(4, 16, 10, 0.5)',
+                      transition: 'all 0.5s ease',
+                      zIndex: 1,
+                    }
+                  }}
+                >
+                  <Box
+                    component="img"
                     src={facility.img}
                     alt={facility.label}
-                    style={{
-                      position: 'absolute', top: 0, left: 0,
-                      width: '100%', height: '100%', objectFit: 'cover',
-                      zIndex: 1,
-                      opacity: activeFacility === index ? 1 : 0,
-                      transition: 'opacity 0.4s ease-in-out',
-                      pointerEvents: 'none'
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transform: isActive ? 'scale(1.05)' : 'scale(1)',
+                      transition: 'transform 6s ease-out',
                     }}
                   />
-                ))}
-              </Box>
-            </Grid>
-
-            {/* List Column */}
-            <Grid item xs={12} md={7}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 3, md: 5 }, pl: { md: 6 } }}>
-                {facilityList.map((facility, index) => {
-                  const isActive = activeFacility === index;
-                  return (
-                    <Box
-                      key={index}
-                      onMouseEnter={() => setActiveFacility(index)}
+                  {/* Content Container */}
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      p: { xs: 2.5, md: 3 },
+                      zIndex: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    {/* Vertical Text (Visible only on desktop when inactive) */}
+                    <Typography
                       sx={{
-                        display: 'flex', alignItems: 'center', cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        color: isActive ? '#4a453f' : '#8e8a83',
+                        display: { xs: 'none', md: 'block' },
+                        position: 'absolute',
+                        bottom: 90, // Positioned above the icon
+                        left: 24, // Aligned with the p:3 padding
+                        ml: '13px', // Centered relative to the 44px icon
+                        fontFamily: '"Playfair Display", serif',
+                        fontSize: '1.1rem',
+                        fontWeight: 700,
+                        color: 'white',
+                        opacity: isActive ? 0 : 1,
+                        visibility: isActive ? 'hidden' : 'visible',
+                        transition: 'opacity 0.4s ease',
+                        whiteSpace: 'nowrap',
+                        textShadow: '0 2px 10px rgba(0,0,0,0.5)',
+                        writingMode: 'vertical-rl',
+                        transform: 'rotate(180deg)',
                       }}
                     >
+                      {facility.label}
+                    </Typography>
+
+                    {/* Bottom Row: Icon + Horizontal Text */}
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        width: '100%',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: { xs: 36, md: 44 },
+                          height: { xs: 36, md: 44 },
+                          borderRadius: '50%',
+                          backgroundColor: isActive ? 'secondary.main' : 'rgba(255,255,255,0.15)',
+                          backdropFilter: 'blur(4px)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          transition: 'all 0.4s ease',
+                          border: '1px solid',
+                          borderColor: isActive ? 'secondary.main' : 'rgba(255,255,255,0.3)',
+                        }}
+                      >
+                        <Typography sx={{ fontWeight: 700, fontSize: { xs: '0.8rem', md: '0.9rem' }, color: '#fff' }}>
+                          0{index + 1}
+                        </Typography>
+                      </Box>
+
                       <Typography
                         sx={{
                           fontFamily: '"Playfair Display", serif',
-                          fontSize: { xs: '1.4rem', md: '1.8rem' },
-                          transition: 'color 0.3s ease',
+                          fontSize: { xs: '1.1rem', md: '1.4rem' },
+                          fontWeight: 700,
+                          color: 'white',
+                          opacity: isActive ? 1 : { xs: 1, md: 0 },
+                          width: isActive ? 'auto' : { xs: 'auto', md: 0 },
+                          overflow: 'hidden',
+                          transform: isActive ? 'translateX(0)' : 'translateX(-10px)',
+                          transition: 'all 0.5s ease',
+                          transitionDelay: isActive ? '0.2s' : '0s',
+                          whiteSpace: { xs: 'normal', md: 'nowrap' },
+                          textShadow: '0 2px 10px rgba(0,0,0,0.5)',
                         }}
                       >
                         {facility.label}
                       </Typography>
-                      {isActive && (
-                        <Box sx={{ ml: 4, position: 'relative', display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ position: 'absolute', width: 44, height: 44, borderRadius: '50%', backgroundColor: 'rgba(0,0,0,0.06)', left: -12 }} />
-                          <EastIcon sx={{ fontSize: '1.5rem', fontWeight: 300, color: '#4a453f', position: 'relative', zIndex: 1 }} />
-                        </Box>
-                      )}
                     </Box>
-                  );
-                })}
-              </Box>
-            </Grid>
-          </Grid>
+                  </Box>
+                </Box>
+              );
+            })}
+          </Box>
         </Container>
       </Box>
 
       <Container maxWidth="lg">
 
         {/* ── Upcoming Projects ── */}
-        <Box sx={{ mt: 12, mb: 6 }}>
+        <Box sx={{ mt: 6, mb: 6 }}>
           <Typography sx={{ textTransform: 'uppercase', letterSpacing: '3px', color: 'secondary.main', fontWeight: 700, fontSize: '0.72rem', mb: 1.5, textAlign: 'center' }}>
             Upcoming Projects
           </Typography>
-          <Typography variant="h4" color="primary" sx={{ fontWeight: 800, fontSize: { xs: '1.8rem', md: '2.4rem' }, lineHeight: 1.2, textAlign: 'center', mb: 3 }}>
+          <Typography variant="h4" color="primary" sx={{ fontWeight: 800, fontSize: { xs: '1.8rem', md: '2.4rem' }, lineHeight: 1.2, textAlign: 'center', mb: 2.5 }}>
             Expanding Across South India
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 800, mx: 'auto', textAlign: 'center', mb: 6, lineHeight: 1.7 }}>
-            As part of our long-term vision, TrailNest continues to expand with unique hospitality experiences inspired by local culture, nature, and adventure.
+          <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 800, mx: 'auto', textAlign: 'center', mb: 5, lineHeight: 1.7 }}>
+            As part of our long-term vision, TrailNest continues to expand across South India with unique hospitality experiences inspired by local culture, nature, and adventure.
           </Typography>
 
-          <Grid container spacing={3.5}>
-
+          <Grid container spacing={3} alignItems="stretch">
             {[
               {
-                title: 'Woodsman Craft',
+                title: 'Woodsman Craft by TrailNest',
                 location: 'Lovedale, Ooty, Tamil Nadu',
-                desc: 'A nature-inspired retreat designed around the charm of the Nilgiris, offering peaceful stays surrounded by forests, misty landscapes, and mountain views.'
+                desc: 'A nature-inspired retreat designed around the charm of the Nilgiris, offering peaceful stays surrounded by forests, misty landscapes, and mountain views.',
+                img: '/upcoming_ooty.png'
               },
               {
-                title: 'Amber',
+                title: 'Amber by TrailNest',
                 location: 'Madikeri (Coorg), Karnataka',
-                desc: 'A premium countryside escape in the heart of Coorg, combining plantation experiences, scenic viewpoints, and comfortable accommodation.'
+                desc: 'A premium countryside escape in the heart of Coorg, combining plantation experiences, scenic viewpoints, and comfortable accommodation.',
+                img: '/upcoming_coorg.png'
               },
               {
-                title: 'Cozy Huts',
+                title: 'Cozy Huts by TrailNest',
                 location: 'Meppadi, Wayanad, Kerala',
-                desc: 'A tranquil hillside getaway featuring cozy stays, nature trails, and immersive experiences amidst the beautiful landscapes of Wayanad.'
+                desc: 'A tranquil hillside getaway featuring cozy stays, nature trails, and immersive experiences amidst the beautiful landscapes of Wayanad.',
+                img: '/upcoming_wayanad.png'
               }
             ].map((project, idx) => (
               <Grid item xs={12} md={4} key={idx}>
-                <Box
+                <Paper
                   component={motion.div}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.6, delay: idx * 0.15 }}
+                  elevation={0}
                   sx={{
-                    borderRadius: '20px', overflow: 'hidden', position: 'relative',
-                    height: 380, cursor: 'pointer', boxShadow: '0 8px 30px rgba(4,16,10,0.12)',
-                    '&:hover .upc-bg': { transform: 'scale(1.06)' },
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                    background: '#fff',
+                    border: '1px solid rgba(27,67,50,0.06)',
+                    boxShadow: '0 8px 25px rgba(0,0,0,0.04)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    cursor: 'pointer',
+                    transition: 'transform 0.4s ease, box-shadow 0.4s ease',
+                    '&:hover': {
+                      transform: 'translateY(-6px)',
+                      boxShadow: '0 15px 40px rgba(27,67,50,0.1)',
+                    },
+                    '&:hover .upc-img': {
+                      transform: 'scale(1.08)',
+                    }
                   }}
                 >
-                  <Box className="upc-bg" sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #081c15 0%, #1b4332 100%)', transition: 'transform 0.8s ease' }} />
-                  <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(4,12,8,0.95) 0%, rgba(4,12,8,0.3) 60%, rgba(4,12,8,0) 100%)' }} />
-                  <Box sx={{ position: 'absolute', top: 16, right: 16, backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', color: '#fff', px: 1.5, py: 0.4, borderRadius: '20px', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
-                    Coming Soon
+                  {/* Image Top Half */}
+                  <Box sx={{ position: 'relative', height: 210, overflow: 'hidden' }}>
+                    <Box
+                      className="upc-img"
+                      component="img"
+                      src={project.img}
+                      alt={project.title}
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.7s ease',
+                      }}
+                    />
+                    {/* Status Badge */}
+                    <Box sx={{ position: 'absolute', top: 16, right: 16, backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', color: 'secondary.main', px: 1.5, py: 0.4, borderRadius: '20px', fontSize: '0.6rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                      Coming Soon
+                    </Box>
                   </Box>
-                  <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 3.5 }}>
-                    <Typography sx={{ color: 'secondary.main', fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', mb: 0.8 }}>
+
+                  {/* Content Bottom Half */}
+                  <Box sx={{ p: { xs: 2.5, md: 3 }, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                    <Typography sx={{ color: 'secondary.main', fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.2px', mb: 1 }}>
                       📍 {project.location}
                     </Typography>
-                    <Typography sx={{ color: '#fff', fontFamily: '"Playfair Display", serif', fontWeight: 700, fontSize: '1.6rem', lineHeight: 1.25, mb: 1.5 }}>
+                    <Typography sx={{ color: 'primary.main', fontFamily: '"Playfair Display", serif', fontWeight: 800, fontSize: '1.3rem', lineHeight: 1.25, mb: 1.5 }}>
                       {project.title}
                     </Typography>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.85rem', lineHeight: 1.6 }}>
+                    <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem', lineHeight: 1.6, flexGrow: 1 }}>
                       {project.desc}
                     </Typography>
                   </Box>
-                </Box>
+                </Paper>
               </Grid>
             ))}
           </Grid>
 
-          <Box sx={{ mt: 8, p: 4, borderRadius: '20px', background: 'linear-gradient(135deg, #f8fbf9 0%, #fefcf5 100%)', border: '1px solid rgba(27,67,50,0.08)', textAlign: 'center' }}>
-            <Typography variant="h5" color="primary" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, fontStyle: 'italic', mb: 2 }}>
+          <Box sx={{ mt: 5, p: 3, borderRadius: '20px', background: 'linear-gradient(135deg, #f8fbf9 0%, #fefcf5 100%)', border: '1px solid rgba(27,67,50,0.08)', textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 700, mx: 'auto', lineHeight: 1.7, mb: 1.5 }}>
+              Our goal is to create distinctive destinations across Kerala, Karnataka, and Tamil Nadu while maintaining the same values that define TrailNest:
+            </Typography>
+            <Typography variant="h5" color="primary" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, fontStyle: 'italic', mb: 1.5 }}>
               "Simple Stays. Real Peace."
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto', lineHeight: 1.8 }}>
-              Our goal is to create distinctive destinations across Kerala, Karnataka, and Tamil Nadu while maintaining the values that define TrailNest. More destinations are currently under development and will be announced soon.
+            <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 700, mx: 'auto', lineHeight: 1.7, mb: 4 }}>
+              More destinations are currently under development and will be announced soon.
             </Typography>
           </Box>
         </Box>
