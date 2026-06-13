@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   Button,
   Typography,
   Box,
-  Grid,
   TextField,
   MenuItem,
   FormControlLabel,
   Checkbox,
-  Card,
-  CardContent,
   IconButton,
-  Divider,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import LandscapeIcon from '@mui/icons-material/Landscape';
 import confetti from 'canvas-confetti';
 
 const locations = [
@@ -37,12 +32,15 @@ export default function PreLaunchModal({ open, onClose, initialLocation }) {
   const [keepUpdated, setKeepUpdated] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
-  const [memberId, setMemberId] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     if (open) {
       setSubmitted(false);
       setErrors({});
+      setSubmitError('');
+      setLoading(false);
       if (initialLocation) {
         setPrefLocation(initialLocation);
       }
@@ -64,15 +62,61 @@ export default function PreLaunchModal({ open, onClose, initialLocation }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      setMemberId(`TN-${Math.floor(1000 + Math.random() * 9000)}`);
-      setSubmitted(true);
-      
-      confetti({
-        particleCount: 120,
-        spread: 60,
-        origin: { y: 0.65 },
-        colors: ['#1b4332', '#d97706', '#40916c', '#ffffff'],
-      });
+      setLoading(true);
+      setSubmitError('');
+      const generatedId = `TN-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      const hasPlaceholders = 
+        !serviceId || 
+        !templateId || 
+        !publicKey ||
+        serviceId.includes('here') || 
+        templateId.includes('here') || 
+        publicKey.includes('here');
+
+      if (hasPlaceholders) {
+        console.warn('EmailJS: Config keys are missing or placeholders. Simulating successful submission.');
+        setTimeout(() => {
+          setLoading(false);
+          setSubmitted(true);
+          confetti({
+            particleCount: 120,
+            spread: 60,
+            origin: { y: 0.65 },
+            colors: ['#1b4332', '#d97706', '#40916c', '#ffffff'],
+          });
+        }, 1000);
+        return;
+      }
+
+      const templateParams = {
+        title: 'New Membership Request - TrailNest Club',
+        name: fullName,
+        email: email,
+        message: `Member ID: ${generatedId}\nPreferred Nest: ${getPrefLocationLabel()}\nNewsletter Subscription: ${keepUpdated ? 'Yes' : 'No'}`,
+        time: new Date().toLocaleString(),
+      };
+
+      emailjs.send(serviceId, templateId, templateParams, publicKey)
+        .then(() => {
+          setLoading(false);
+          setSubmitted(true);
+          confetti({
+            particleCount: 120,
+            spread: 60,
+            origin: { y: 0.65 },
+            colors: ['#1b4332', '#d97706', '#40916c', '#ffffff'],
+          });
+        })
+        .catch((error) => {
+          console.error('EmailJS Error:', error);
+          setLoading(false);
+          setSubmitError('Failed to send request. Please check your network connection or configure your EmailJS credentials.');
+        });
     }
   };
 
@@ -188,10 +232,17 @@ export default function PreLaunchModal({ open, onClose, initialLocation }) {
               variant="contained"
               color="secondary"
               fullWidth
+              disabled={loading}
               sx={{ py: 1.5, mt: 1, boxShadow: '0 4px 14px rgba(217, 119, 6, 0.3)' }}
             >
-              Request Member Pass
+              {loading ? 'Sending Request...' : 'Request Member Pass'}
             </Button>
+
+            {submitError && (
+              <Typography variant="body2" color="error" sx={{ textAlign: 'center', mt: 1 }}>
+                {submitError}
+              </Typography>
+            )}
           </Box>
         ) : (
           <Box sx={{ textAlign: 'center', py: 1 }}>
@@ -203,78 +254,12 @@ export default function PreLaunchModal({ open, onClose, initialLocation }) {
               Thanks {fullName}! We have registered your member account. Your confirmation has been sent to <strong>{email}</strong>.
             </Typography>
 
-            {/* Founding Member Digital Pass */}
-            <Card
-              sx={{
-                background: 'linear-gradient(135deg, #1b4332, #081c15)',
-                color: '#ffffff',
-                textAlign: 'left',
-                borderRadius: 4,
-                boxShadow: '0 10px 25px rgba(27,67,50,0.25)',
-                position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  width: 24,
-                  height: 24,
-                  borderRadius: '50%',
-                  background: '#ffffff',
-                  left: -12,
-                  top: '60%',
-                  transform: 'translateY(-50%)',
-                },
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  width: 24,
-                  height: 24,
-                  borderRadius: '50%',
-                  background: '#ffffff',
-                  right: -12,
-                  top: '60%',
-                  transform: 'translateY(-50%)',
-                },
-              }}
-            >
-              <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Typography variant="caption" sx={{ color: 'secondary.light', letterSpacing: '2px', fontWeight: 700 }}>
-                    TRAILNEST CLUB MEMBER
-                  </Typography>
-                  <LandscapeIcon sx={{ color: 'secondary.light', fontSize: '1.2rem' }} />
-                </Box>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', fontSize: '0.65rem' }}>MEMBER</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 700 }}>{fullName}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', fontSize: '0.65rem' }}>MEMBER ID</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 700, color: 'secondary.light' }}>{memberId}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', fontSize: '0.65rem' }}>FAVORITE RETREAT</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 700 }}>{getPrefLocationLabel()}</Typography>
-                  </Grid>
-                </Grid>
-
-                {/* Tear line */}
-                <Box sx={{ borderBottom: '1px dashed rgba(255,255,255,0.2)', my: 2, pt: 1 }} />
-
-                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)', display: 'block', textAlign: 'center', fontSize: '0.65rem' }}>
-                  A founding membership discount of 15% is linked to this member pass.
-                </Typography>
-              </CardContent>
-            </Card>
-
             <Button
               variant="contained"
               color="primary"
               fullWidth
               onClick={onClose}
-              sx={{ mt: 3, py: 1.2 }}
+              sx={{ mt: 1, py: 1.2 }}
             >
               Back to Exploration
             </Button>
