@@ -14,6 +14,8 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import QrCode2Icon from '@mui/icons-material/QrCode2';
 
 export default function Footer() {
   const handleScrollToSection = (targetId) => {
@@ -123,24 +125,67 @@ export default function Footer() {
             </Box>
           </Grid>
 
-          {/* Contact Details */}
+          {/* Location & QR Code */}
           <Grid item xs={12} sm={6} md={4}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#ffffff', mb: 3 }}>
-              Reservations
+            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#ffffff', mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
+              <LocationOnIcon sx={{ color: 'secondary.light', fontSize: '1.1rem' }} />
+              Find Us
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <PhoneIcon sx={{ color: 'secondary.light' }} />
-                <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                  +91 98765 43210
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+              {/* QR Code */}
+              <Box
+                sx={{
+                  background: '#ffffff',
+                  borderRadius: 2,
+                  p: 1,
+                  flexShrink: 0,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+                  border: '2px solid rgba(217, 119, 6, 0.4)',
+                }}
+              >
+                <Box
+                  component="img"
+                  src="/location_qr.png"
+                  alt="Scan to find TrailNest location"
+                  sx={{ height: 100, width: 100, display: 'block', objectFit: 'contain' }}
+                />
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: 'block',
+                    textAlign: 'center',
+                    color: '#081c15',
+                    fontWeight: 600,
+                    fontSize: '0.6rem',
+                    mt: 0.5,
+                    letterSpacing: '0.5px',
+                  }}
+                >
+                  <QrCode2Icon sx={{ fontSize: '0.75rem', verticalAlign: 'middle', mr: 0.3 }} />
+                  Scan to locate
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <EmailIcon sx={{ color: 'secondary.light' }} />
-                <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                  hello@trailnest.in
-                </Typography>
+
+              {/* Address + Contact */}
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                  <LocationOnIcon sx={{ color: 'secondary.light', fontSize: '1rem', mt: 0.2, flexShrink: 0 }} />
+                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.6, fontSize: '0.82rem' }}>
+                    Kavunji, Kodaikanal,<br />Tamil Nadu, India
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <PhoneIcon sx={{ color: 'secondary.light', fontSize: '1rem', flexShrink: 0 }} />
+                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.82rem' }}>
+                    +91 98765 43210
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <EmailIcon sx={{ color: 'secondary.light', fontSize: '1rem', flexShrink: 0 }} />
+                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.82rem' }}>
+                    hello@trailnest.in
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Grid>
