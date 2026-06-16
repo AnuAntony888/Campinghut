@@ -177,13 +177,13 @@ export default function Footer() {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <PhoneIcon sx={{ color: 'secondary.light', fontSize: '1rem', flexShrink: 0 }} />
                   <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.82rem' }}>
-                    +91 98765 43210
+                    +91 9071114800
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <EmailIcon sx={{ color: 'secondary.light', fontSize: '1rem', flexShrink: 0 }} />
                   <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.82rem' }}>
-                    hello@trailnest.in
+                    info.trailnest@gmail.com
                   </Typography>
                 </Box>
               </Box>
